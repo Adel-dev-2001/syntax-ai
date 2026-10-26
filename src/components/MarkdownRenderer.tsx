@@ -340,7 +340,8 @@ function CodeBlock({ language, value }: { language: string; value: string }) {
               isFullscreen ? "min-h-screen" : "min-h-[400px]",
             )}
             style={{ display: "block", backgroundColor: "#ffffff" }}
-            sandbox="allow-scripts allow-modals allow-forms allow-popups allow-same-origin"
+            sandbox="allow-scripts"
+            referrerPolicy="no-referrer"
           />
         </div>
       ) : (
