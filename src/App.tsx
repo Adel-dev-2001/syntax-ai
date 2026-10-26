@@ -118,6 +118,7 @@ export default function App() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       chat.handleSend();
@@ -689,7 +690,7 @@ export default function App() {
                     onChange={(e) => setSpeechLang(e.target.value)}
                     className="w-full bg-input border border-border rounded-xl p-2.5 text-sm focus-visible:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                   >
-                    <option value="">Auto-detect (System Default)</option>
+                    <option value="">Browser language (System Default)</option>
                     <option value="ar-EG">Arabic (Egypt)</option>
                     <option value="ar-SA">Arabic (Saudi Arabia)</option>
                     <option value="ar-AE">Arabic (UAE)</option>
