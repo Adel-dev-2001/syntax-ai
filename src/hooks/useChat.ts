@@ -182,9 +182,11 @@ export function useChat({ input, setInput }: UseChatOptions): UseChatReturn {
           if (nextList.length > 0) {
             setSessionId(nextList[0].id);
             setMessages(nextList[0].messages);
+            setCurrentLeafId(nextList[0].currentLeafId);
           } else {
             setSessionId(Date.now().toString());
             setMessages([]);
+            setCurrentLeafId(undefined);
           }
         }
         return nextList;
@@ -276,7 +278,7 @@ export function useChat({ input, setInput }: UseChatOptions): UseChatReturn {
         const editedMsg = messages.find((m) => m.id === editedMessageId);
         if (editedMsg) {
           parentId = editedMsg.parentId;
-          thread = getActiveThread(messages, parentId);
+          thread = parentId ? getActiveThread(messages, parentId) : [];
         }
       }
 
@@ -376,15 +378,17 @@ export function useChat({ input, setInput }: UseChatOptions): UseChatReturn {
       } catch (error) {
         console.error("useChat: error generating response:", error);
         if (generationIdRef.current === currentGenId) {
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: (Date.now() + 2).toString(),
-              role: "model",
-              text: "⚠️ Sorry, an error occurred while processing your request. Please try again.",
-              isStreaming: false,
-            },
-          ]);
+          setMessages((prev) =>
+            prev.map((message) =>
+              message.id === assistantMsgId
+                ? {
+                    ...message,
+                    text: "The response could not be completed. Check your API configuration or connection and try again.",
+                    isStreaming: false,
+                  }
+                : message,
+            ),
+          );
         }
       } finally {
         if (generationIdRef.current === currentGenId) {
