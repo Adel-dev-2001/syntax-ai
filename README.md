@@ -8,14 +8,14 @@ Syntax AI is a browser-based AI chat application for coding help, built with Rea
 
 | Feature | How it works in this project |
 |---|---|
-| **Streaming chat** | Responses stream chunk by chunk from the Gemini API (`gemini-3-flash-preview`, set in `src/constants/chat.ts`). A stop button cancels generation. |
+| **Streaming chat** | Responses stream chunk by chunk from the Gemini API (`gemini-3-flash-preview`, set in `src/constants/chat.ts`). A stop button stops consuming and displaying further output; it does not guarantee cancellation of the provider's in-flight request or billing. |
 | **Branching conversations** | Edit a sent message to start a new branch, then use the arrows to move between versions. |
 | **Conversation history** | Chats are listed in a sidebar, can be deleted, and are saved in `localStorage`. |
 | **Core memory** | The model can save facts about you (name, preferences) using a hidden `<memory>` tag. They are stored in `localStorage`, added to future prompts, and can be edited or cleared in Settings. |
 | **File attachments** | Attach one or more files (up to 5 MB each). They are sent to Gemini as inline data, so results are best with images, PDFs and text/code files. |
 | **Code blocks** | Code blocks have a copy button. HTML, SVG, CSS, JavaScript and JSX/TSX/React blocks also have a **Run** button that previews them in an iframe, with a fullscreen option. For React code, name the main component `App` or `Example`. |
-| **Image generation** | When you ask for an image, the model writes a [Pollinations.ai](https://pollinations.ai) image URL that is rendered inline with a download button. No extra key is needed. |
-| **Voice input** | Speech-to-text through the browser's Web Speech API, with a language picker (14 languages plus auto-detect). Needs a browser that supports it, such as Chrome or Edge. |
+| **Image generation** | Experimental: the model can write a [Pollinations.ai](https://pollinations.ai) image URL that is rendered inline. This is a third-party service, not native image generation by the chat model; endpoint availability and authentication requirements may change. Reusing a seed does not guarantee image editing or consistent subjects. |
+| **Voice input** | Speech-to-text through the browser's Web Speech API, with a language picker (14 languages plus the browser's default language, not automatic spoken-language detection). Needs a browser that supports it, such as Chrome or Edge. |
 | **Text-to-speech** | Read any response aloud with Gemini TTS (`gemini-3.1-flash-tts-preview`) using one of five voices: Puck, Charon, Kore, Fenrir or Zephyr. A voice preview is available in Settings. |
 | **Export** | Download the active conversation as a `.md` file. |
 | **Dark / light mode** | Starts from your OS preference and can be toggled. The choice is not saved between visits. |
@@ -44,8 +44,8 @@ Syntax AI is a browser-based AI chat application for coding help, built with Rea
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Adel-dev-2001/ai-chatbot.git
-cd ai-chatbot
+git clone https://github.com/Adel-dev-2001/syntax-ai.git
+cd syntax-ai
 
 # 2. Install dependencies
 npm install
@@ -81,7 +81,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Project Structure
 
 ```
-ai-chatbot/
+syntax-ai/
 ├── public/
 │   └── favicon.svg
 ├── src/
